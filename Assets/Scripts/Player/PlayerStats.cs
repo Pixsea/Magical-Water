@@ -181,9 +181,11 @@ public class PlayerStats : MonoBehaviour
                 obj.gameObject.SendMessage("HitPlayer", gameObject);
             }
 
-            else if (obj.gameObject.tag == "Enemy")
+            // IOf it collides with soemthing on the "Enemy Hitbox" layer
+            else if (obj.gameObject.layer == 14)
             {
-                int damage = obj.gameObject.GetComponent<Enemy>().power;
+                int damage = obj.gameObject.transform.parent.gameObject.GetComponent<Enemy>().power;
+                Debug.Log(damage);
                 ApplyDamage(damage);
             }
         }

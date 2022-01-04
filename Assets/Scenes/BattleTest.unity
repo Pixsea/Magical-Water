@@ -309,6 +309,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BattleManager
       objectReference: {fileID: 0}
+    - target: {fileID: 4197921299636925339, guid: c02fc916cade7604797742e821affa43,
+        type: 3}
+      propertyPath: startPhase
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c02fc916cade7604797742e821affa43, type: 3}
 --- !u!1 &958239587
@@ -751,6 +756,7 @@ GameObject:
   - component: {fileID: 941782771782037053}
   - component: {fileID: 7185651526312838702}
   - component: {fileID: 7202915852518729654}
+  - component: {fileID: 941782771782037042}
   m_Layer: 9
   m_Name: Seedling
   m_TagString: Enemy
@@ -758,6 +764,50 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &941782771782037042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 941782771782037041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa879671f9ae42e4181d0493d58955ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyName: Seedling
+  isShelled: 0
+  player: {fileID: 0}
+  rb: {fileID: 0}
+  maxHealth: 100
+  health: 0
+  basePower: 10
+  power: 0
+  shieldPower: 0
+  baseSpeed: 1
+  speed: 0
+  baseRotationSpeed: 10
+  rotationSpeed: 0
+  powerMultiplier: 0
+  speedMultiplier: 0
+  bm: {fileID: 0}
+  battlePhase: 0
+  state: 0
+  timer: 0
+  currMove: 0
+  preferedMove: 0
+  turning: 0
+  facingPlayer: 0
+  moving: 0
+  spawnX: 0
+  spawnY: 0
+  spawnRotation: 0
+  eAnimator: {fileID: 0}
+  eSriteRenderer: {fileID: 4152910513233050015}
+  colorCode: {r: 0, g: 0, b: 0, a: 0}
+  flickerCode: {r: 0, g: 0, b: 0, a: 0}
+  tintCode: {r: 0, g: 0, b: 0, a: 0}
 --- !u!4 &941782771782037053
 Transform:
   m_ObjectHideFlags: 0
@@ -4013,7 +4063,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5038537562086729226}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 47880efd1b475704687e601a2aa7901c, type: 2}
   m_CullingMode: 0

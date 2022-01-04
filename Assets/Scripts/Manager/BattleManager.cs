@@ -6,8 +6,11 @@ public enum Phase { Idle, Combat, Dialogue, Overworld }
 
 public class BattleManager : MonoBehaviour
 {
-    public bool overworld;
-    public bool combat;
+    public bool overworldStart;
+    public bool combatStart;
+
+    [SerializeField]
+    private Phase startPhase;
 
     [SerializeField]
     private string Switchkey; // For testing purposes
@@ -40,18 +43,7 @@ public class BattleManager : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         enemies = new List<GameObject>(GameObject.FindGameObjectsWithTag("Enemy"));
 
-        //if (overworld)
-        //{
-        //    currPhase = Phase.Overworld;
-        //}
-        //else if (combat)
-        //{
-        //    currPhase = Phase.Combat;
-        //}
-        //else
-        //{
-        //    currPhase = Phase.Idle;
-        //}
+        SwitchPhase(startPhase);
 
 
     }
@@ -71,23 +63,38 @@ public class BattleManager : MonoBehaviour
     {
         //Debug.Log(phase);
 
-        if (currPhase == Phase.Idle)
-        {
-            if (Switch2)
-            {
-                currPhase = Phase.Combat;
-                Switch2 = false;
-                SetupAll();
-            }
-        }
+        //if (currPhase == Phase.Idle)
+        //{
+        //    if (Switch2)
+        //    {
+        //        currPhase = Phase.Combat;
+        //        Switch2 = false;
+        //        //SetupAll();
+        //    }
+        //}
 
-        else if (currPhase == Phase.Combat)
+        //else if (currPhase == Phase.Combat)
+        //{
+        //    if (Switch2)
+        //    {
+        //        currPhase = Phase.Idle;
+        //        Switch2 = false;
+        //        //ResetAll();
+        //    }
+        //}
+    }
+
+
+    void SwitchPhase(Phase newPhase)
+    {
+        currPhase = newPhase;
+
+        if (currPhase == Phase.Combat)
         {
-            if (Switch2)
+            List<GameObject> allEnemies = new List<GameObject>(GameObject.FindGameObjectsWithTag("Enemy"));
+            foreach (GameObject enemy in enemies)
             {
-                currPhase = Phase.Idle;
-                Switch2 = false;
-                ResetAll();
+                enemy.gameObject.GetComponent<Enemy>().StartAttackLoop();
             }
         }
     }

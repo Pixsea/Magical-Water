@@ -88,14 +88,14 @@ public class Shoallet : Enemy
             shieldPower = power;
         }
 
-        if (turnToPlayer)
-        {
-            Turn();
-        }
-        if (facePlayer)
-        {
-            Face();
-        }
+        //if (turnToPlayer)
+        //{
+        //    Turn();
+        //}
+        //if (facePlayer)
+        //{
+        //    Face();
+        //}
 
         // Do a telegraph flash if going to do a blockable attack
         if ((state == 1) && blockable && (blinking == false))
@@ -174,7 +174,7 @@ public class Shoallet : Enemy
             yield return new WaitForSeconds(aimPeriod);
 
             // Standing -> Spinning
-            turnToPlayer = true;
+            //turnToPlayer = true;
             state = 1;
             eAnimator.SetInteger("state", state);
             eAnimator.SetBool("strong spin", true);

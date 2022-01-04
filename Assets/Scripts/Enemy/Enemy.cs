@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
     private bool isShelled = false;  //Shelled enemies ram into you, so the shield must know to block the ram attack but not enemies that are just standing there
 
     [HideInInspector]
-    public GameObject player;
+    public GameObject player;  // Reference to enemy player
     [HideInInspector]
     public Rigidbody2D rb;
 
@@ -30,6 +30,9 @@ public class Enemy : MonoBehaviour
     public float baseSpeed;
     [HideInInspector]
     public float speed;
+    public float baseRotationSpeed;
+    [HideInInspector]
+    public float rotationSpeed;
 
     [HideInInspector]
     public float powerMultiplier;
@@ -42,8 +45,7 @@ public class Enemy : MonoBehaviour
     public GameObject bm;  //Battle manager
     [HideInInspector]
     public Phase battlePhase;
-    [HideInInspector]
-    public bool startInCombat;  // whetehr the enemy will start in the combat or idle phase
+    
 
     [HideInInspector]
     public int state; // What state the enemy is in
@@ -54,9 +56,11 @@ public class Enemy : MonoBehaviour
     public int preferedMove;  //If not -1 (null), will always do the move corresponding to the given int
 
     [HideInInspector]
-    public bool turnToPlayer = false; //Uses in update loops to control when the enemy should face the player
+    public bool turning = false; //Uses in update loops to control when the enemy should turn to / face the player / moving
     [HideInInspector]
-    public bool facePlayer = false;
+    public bool facingPlayer = false;
+    [HideInInspector]
+    public bool moving = false;
 
     // Spawn coordinates for turn based battles when enemies reset
     [HideInInspector]
@@ -109,26 +113,11 @@ public class Enemy : MonoBehaviour
         powerMultiplier = 1f;
         speedMultiplier = 1f;
 
-        if (startInCombat)
-        {
-            battlePhase = Phase.Combat;
-        }
-        else
-        {
-            battlePhase = Phase.Idle;
-        }
-
         EnemySetup();
     }
 
 
-    public virtual IEnumerator GameLoop()
-    {
-        yield return null;
-    }
-
-
-        // Called when enmy is loaded in
+    // Called during start function for enemy
     public virtual void EnemySetup()
     {
         
@@ -167,6 +156,35 @@ public class Enemy : MonoBehaviour
     public virtual void Dead()
     {
         DestroyObject(gameObject);
+    }
+
+
+    public void MoveForward()
+    {
+        rb.velocity = transform.up * speed;
+    }
+
+
+    // Turns to player with rotationSpeed
+    public void TurnTowardsPlayer()
+    {
+        Vector3 direction = player.transform.position - transform.position;
+        float angle = (Mathf.Atan2(direction.x, direction.y)) * (180 / Mathf.PI);
+        angle = 0 - angle;
+        Quaternion angle2 = Quaternion.Euler(new Vector3(0, 0, angle));
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, angle2, rotationSpeed);
+    }
+
+
+
+    // Always faces the player
+    public void FacePlayer()
+    {
+        Vector3 direction = player.transform.position - transform.position;
+        float angle = (Mathf.Atan2(direction.x, direction.y)) * (180 / Mathf.PI);
+        angle = 0 - angle;
+        Quaternion angle2 = Quaternion.Euler(new Vector3(0, 0, angle));
+        transform.rotation = angle2;
     }
 
 
@@ -229,8 +247,6 @@ public class Enemy : MonoBehaviour
             colorCode.g += .05f;
         }
     }
-
-
 
     // Given a color and a float, causes the enemy to flicker for that amount if time in seconds
     public void Flicker(string color, float time)

@@ -159,6 +159,12 @@ public class Enemy : MonoBehaviour
     }
 
 
+    public virtual int GetDamage()
+    {
+        return (int) (basePower*powerMultiplier);
+    }
+
+
     public void MoveForward()
     {
         rb.velocity = transform.up * speed;
